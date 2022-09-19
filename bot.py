@@ -17,7 +17,9 @@ def read():
         obj= json.load(openfile)
 async def getter():
     result = []
-    browser = browsers.Firefox()
+    browser = browsers.Firefox(**{'moz:firefoxOptions': {
+            'args': ['-headless', '-log', "{'level': 'warning'}", '--no-sandbox']}
+        })
     servic = services.Geckodriver(binary="/home/sadlord/Desktop/telegram-bot/univercity/geckodriver")
     async with get_session(servic, browser) as driver:
         await driver.get("http://vu.kashmar.ac.ir/vu/meeting.list.php?fid=6226916")
@@ -48,14 +50,14 @@ async def get_links(query):
             result.append(InlineQueryResultArticle(
                 title=i['title'],
                 input_message_content=InputTextMessageContent(
-                        f"**{i['title']}**\n{i['link']}"
+                        f"📝**{i['title']}**✅\n🔗{i['link']}"
                     )
                 ))
     if len(result) == 0:
         result.append(InlineQueryResultArticle(
                 title="not found",
                 input_message_content=InputTextMessageContent(
-                        "**not found**"
+                        "⭕**not found**‼"
                     )
                 ))
     return result
