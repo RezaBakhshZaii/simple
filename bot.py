@@ -1,5 +1,7 @@
+import asyncio
+
 from pyrogram import Client, filters
-import json
+import json, os
 from arsenic import get_session, keys, browsers, services
 from asyncio import sleep
 from pyrogram.types import (InlineQueryResultArticle, InputTextMessageContent)
@@ -8,8 +10,7 @@ api_hash = "e062fd165636c6a327fa0be3b8ec3276"
 app = Client("my_bot",api_id=api_id, api_hash=api_hash, bot_token="5549634695:AAGGjpNzc7INyc3T9BnB3bHIiC0eAXYTP0Q")
 
 admin = 618260788
-with open("class.json", "r") as openfile:
-    obj = json.load(openfile)
+
     
 def read():
     with open("class.json", "r") as openfile:
@@ -79,5 +80,11 @@ async def admins(c, m):
         await m.reply("ok")
         read()
         await m.reply("read ok")
+
+if os.path.exists("class.json"):
+    with open("class.json", "r") as openfile:
+        obj = json.load(openfile)
+else:
+    asyncio.run(getter())
 read()
 app.run()  # Automatically start() and idle()
